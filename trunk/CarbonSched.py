@@ -1,5 +1,5 @@
 from carbonapi.CarbonSocketLayer import *
-from carbonapi.Carbon.CarbonJob import *
+from carbonapi.CarbonJob import *
 
 import sys
 import os
