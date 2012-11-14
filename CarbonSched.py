@@ -1,5 +1,5 @@
-from libhemam.Carbon.CarbonSocketLayer import *
-from libhemam.Carbon.CarbonJob import *
+from carbonapi.CarbonSocketLayer import *
+from carbonapi.Carbon.CarbonJob import *
 
 import sys
 import os
