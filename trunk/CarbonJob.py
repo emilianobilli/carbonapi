@@ -9,8 +9,8 @@
 #
 #
 #
-from libhemam.Carbon.CarbonSocketLayer import *
-from libhemam.Carbon.CarbonUtils import *
+from carbonapi.CarbonSocketLayer import *
+from carbonapi.CarbonUtils import *
 from xml.etree.ElementTree import *
 
 
