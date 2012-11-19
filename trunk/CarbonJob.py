@@ -432,5 +432,6 @@ class CarbonJob(object):
 	def GetPlainReply(self):
 		return self.__plainReply
 
-
-
+	def GetCarbonHostname(self):
+		return self.__CarbonSocket.hostname
+    
