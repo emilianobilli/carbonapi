@@ -100,7 +100,9 @@ def StartJobStandAlone(carbon = None, XmlCarbonApi = None):
 	if carbon is not None:
 		if XmlCarbonApi is not None:
 			reply = carbon.SendXml(XmlCarbonApi)
-			print reply
+			if reply is None:
+				return None
+
 			replyElement = fromstring(reply)
 			if replyElement.tag == "Reply":
 				if replyElement.get("Success") == "TRUE":
