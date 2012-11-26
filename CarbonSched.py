@@ -8,10 +8,17 @@ import time
 
 def StartJobCarbonPool(carbonset = None, XmlCarbonApi = None):
 
+	if carbonset.poolLen() == 0:
+		return None
+
 	if carbonset is not None:
 		if XmlCarbonApi is not None:
 			carbon = carbonset.GetBestCarbon()
 			return StartJobStandAlone(carbon, XmlCarbonApi)
+		else:
+			return None
+	else:
+		return None
 
 
 class CarbonStatus(object):
@@ -51,6 +58,10 @@ class CarbonPool(object):
 	def __init__(self):
 		self.CarbonPoolList = []
 
+	def poolLen(self):
+		return len(self.CarbonPoolList)
+
+
 	def addCarbon(self, hostname=None):
 		exist = False
 		if hostname is not None:
@@ -59,8 +70,12 @@ class CarbonPool(object):
 					exist = True
 	
 		if exist == False:
-			self.CarbonPoolList.append(CarbonStatus(CarbonSocketLayer(hostname)))
-			return True
+			carbon = CarbonSocketLayer(hostname)
+			if carbon.LoadNodeStatus():
+				self.CarbonPoolList.append(CarbonStatus(carbon))
+				return True
+			else:
+				return False
 		else:
 			return False
 

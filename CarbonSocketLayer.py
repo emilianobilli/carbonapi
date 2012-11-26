@@ -27,8 +27,13 @@ class CarbonSocketLayer(object):
                 self.Slots_DWD    = u""
 
 
-		self.GetVersion()
-		self.GetNodeStatus()
+    
+	def LoadNodeStatus(self):
+		if not self.GetVersion():
+			return False
+		if not self.GetNodeStatus():
+			return False
+		return True
 
 	## SetHostname()
         #  @param self The object pointer.
@@ -36,6 +41,8 @@ class CarbonSocketLayer(object):
 	def SetHostname(self, hostname):
 		self.hostname = hostname
 
+	def __unicode__(self):
+		self.hostname
 
 
 	def GetVersion(self):
@@ -44,12 +51,17 @@ class CarbonSocketLayer(object):
         	cnpsXML.attrib["TaskType"]     = "Version"
 		xml = '<?xml version=\"1.0\" encoding=\"UTF-8\"?>' + tostring(cnpsXML, encoding="utf-8")
 		replyXml = self.SendXml(xml)
+		print replyXml
+		if replyXml is None:
+			return False
+
 		reply = fromstring(replyXml)
                 if reply.tag == "Reply":
                 	if reply.get("Success") == "TRUE":
                         	self.Version = reply.get("Version")
+				return True
 			else:
-				return None
+				return False
 	
 
 	def GetNodeStatus(self):
@@ -62,7 +74,9 @@ class CarbonSocketLayer(object):
 		cnpsXML.append(NodeCommand)
                 xml = '<?xml version=\"1.0\" encoding=\"UTF-8\"?>' + tostring(cnpsXML, encoding="utf-8")
                 replyXml = self.SendXml(xml)
-                reply = fromstring(replyXml)
+                if replyXml is None:
+			return False
+		reply = fromstring(replyXml)
                 if reply.tag == "Reply":
 		
 	                if reply.get("Success") == "TRUE":
@@ -72,7 +86,11 @@ class CarbonSocketLayer(object):
 					self.Enabled_DWD  = NodeStatus.get("Enabled.DWD")
 					self.Priority_DWD = NodeStatus.get("Priority.DWD")
 					self.Slots_DWD    = NodeStatus.get("Slots.DWD")
-	
+					return True
+			else:
+			    return False
+		else:
+		    return False
 
 
 	def SetNodeStatus(self, Enabled_DWD = None, Priority_DWD = None, Slots_DWD = None):
@@ -100,7 +118,10 @@ class CarbonSocketLayer(object):
 		cnpsXML.append(NodeCommand)
 		xml = '<?xml version=\"1.0\" encoding=\"UTF-8\"?>' + tostring(cnpsXML, encoding="utf-8")
                 replyXml = self.SendXml(xml)
-                reply = fromstring(replyXml)
+                if replyXml is None:
+		    return False
+
+		reply = fromstring(replyXml)
                 if reply.tag == "Reply":
                         if reply.get("Success") == "TRUE":
 				self.GetNodeStatus()
