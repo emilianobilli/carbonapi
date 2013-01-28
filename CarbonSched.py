@@ -34,8 +34,10 @@ class CarbonStatus(object):
 
 	def UpdateStatus(self):
 
+		
+
 		self.JobsInProgress = 0
-		self.JbosInQueue    = 0
+		self.JobsInQueue    = 0
 		self.SchedValue     = 0
 
 		Jobs = JobStatusList(self.carbon)
