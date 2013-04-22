@@ -184,7 +184,8 @@ class CarbonJob(object):
 
 
 	def __EvaluateSuccess(self, xml=""):
-		if xml != "":
+		if xml != "" and xml is not None:
+			print xml
 			reply = fromstring(xml)
 			if reply.tag == "Reply":
 				if reply.get("Success") == "TRUE":
