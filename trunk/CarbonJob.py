@@ -96,20 +96,21 @@ def JobStatusList(carbon, JobStatusListCriteria=[], JobStatusListSettings=None):
     return Jobs		
 
 
-def StartJobStandAlone(carbon = None, XmlCarbonApi = None):
-	if carbon is not None:
+def StartJobStandAlone(Carbon = None, XmlCarbonApi = None):
+	if Carbon is not None:
 		if XmlCarbonApi is not None:
-			reply = carbon.SendXml(XmlCarbonApi)
+			reply = Carbon.SendXml(XmlCarbonApi)
 			if reply is None:
 				return None
 
 			replyElement = fromstring(reply)
 			if replyElement.tag == "Reply":
 				if replyElement.get("Success") == "TRUE":
-					return CarbonJob(carbon, replyElement.get("GUID"))
+					return CarbonJob(Carbon, replyElement.get("GUID"))
 				else:
 					return None
-			
+	else:
+	    return None		
     
 
 
