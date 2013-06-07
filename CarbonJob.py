@@ -132,6 +132,7 @@ class CarbonJob(object):
                 self.__SourceDescription = ""
                 self.__JobGuid      = ""
                 self.__Priority_DWD = 0
+                self.__Speed_DBL    = 0
                 self.__DeleteProcessedSource_DWD = 0
                 self.__CheckTime    = ""
                 self.__StartTime    = ""
@@ -214,6 +215,7 @@ class CarbonJob(object):
                         self.__JobGuid      = JobInfo.get("Guid")
                         self.__GUID         = self.__JobGuid
                         self.__Priority_DWD = int(JobInfo.get("Priority.DWD"))
+			self.__Speed_DBL    = str(JobInfo.get("Speed.DBL"))	
 
                         deleteprocessedsource = JobInfo.get("DeleteProcessedSource.DWD")
                         if deleteprocessedsource is not None:
@@ -304,6 +306,9 @@ class CarbonJob(object):
 	def GetGUID(self):
 		return self.__GUID
 
+
+	def GetSpeed(self):
+		return self.__Speed_DBL
 
 	def GetState(self, update = False):
 		
