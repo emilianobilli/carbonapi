@@ -223,7 +223,7 @@ class CarbonJob(object):
                                 self.__DeleteProcessedSource_DWD = int(deleteprocessedsource)
                         self.__CheckTime    = JobInfo.get("CheckTime")
                         self.__StartTime    = JobInfo.get("StartTime")
-			self.__error	    = JobIngo.get("Error")
+			self.__error	    = JobInfo.get("Error")
 
                         Failures = JobInfo.find("Failures")
                         if Failures is not None:
