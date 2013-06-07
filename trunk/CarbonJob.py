@@ -137,6 +137,7 @@ class CarbonJob(object):
                 self.__CheckTime    = ""
                 self.__StartTime    = ""
 
+		self.__error	    = ""
                 self.__errors       = []
                 self.__warnings     = []
 
@@ -222,6 +223,7 @@ class CarbonJob(object):
                                 self.__DeleteProcessedSource_DWD = int(deleteprocessedsource)
                         self.__CheckTime    = JobInfo.get("CheckTime")
                         self.__StartTime    = JobInfo.get("StartTime")
+			self.__error	    = JobIngo.get("Error")
 
                         Failures = JobInfo.find("Failures")
                         if Failures is not None:
@@ -428,6 +430,10 @@ class CarbonJob(object):
 			self.__Update()
 
 		return self.__StartTime
+
+
+	def GetError(self):
+		return self.__error
 
 
 	def GetErrors(self):
