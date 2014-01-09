@@ -149,6 +149,7 @@ def CreateCarbonXMLJob ( s_path="", s_filename="", s_cuttime=[], d_list = [], so
     xmlheader = "<?xml version=\"1.0\"?>"
     
     if s_path == "" and s_filename == "" and len(d_list) == 0:
+	print "Puto"
     	return None
 
 	
@@ -222,24 +223,43 @@ def CreateCarbonXMLJob ( s_path="", s_filename="", s_cuttime=[], d_list = [], so
 
 	# Add start Timecode Filter
 
+	Filter_0 = Element("Filter_0")
+	
+	j = 0
+	
+#	Filter_1 = Element("Filter_1") 
+	if "subtitle" in dest:
+		Module_Filter_SUB = Element("Module_%s" % j)
+		j = j + 1
+		Module_Filter_SUB.attrib["ModuleGUID"] = "{303EC062-9997-4975-9FED-228798D36687}"
+		Module_Filter_SUB.attrib["PresetGUID"] = "{303EC062-9997-4975-9FED-228798D36687}"
+		Module_Filter_Data = Element("ModuleData")		
+		Module_Filter_Data.append(dest["subtitle"])
+		Module_Filter_SUB.append(Module_Filter_Data)
+		Filter_0.append(Module_Filter_SUB)
+
+
 	if "d_start_tc" in dest:
-		Filter = Element("Filter_0")
-		Module_Filter = Element("Module_0")
-		Module_Filter.attrib["ModuleGUID"] = "{E5C214EC-06E8-495A-8A68-CEE4D73056B4}"
-		Module_Filter.attrib["PresetGUID"] = "{E5C214EC-06E8-495A-8A68-CEE4D73056B4}"
+		Module_Filter = Element("Module_%s" % j)
+		j = j + 1
+		Module_Filter.attrib["ModuleGUID"] = "{3DF7826F-04DC-48FD-A338-3BC706C5B4D4}"
+		Module_Filter.attrib["PresetGUID"] = "{3DF7826F-04DC-48FD-A338-3BC706C5B4D4}"
+		Module_Filter.attrib["Mode.DWD"]   = "0"
+		Module_Filter.attrib["Source.DWD"] = "2"
+		Module_Filter.attrib["TCOffset"]   = "00:00:00"
+		Module_Filter.attrib["TCStart"]	   = "01:00:00:00"
+		Module_Filter.attrib["DropFrame.DWD"] = "1"
 		Module_Filter_Data = Element("ModuleData")
 		Module_Filter_Data.attrib["StartTC"] = dest["d_start_tc"]
 		Module_Filter.append(Module_Filter_Data)
-		Filter.append(Module_Filter)
-		D_Module.append(Filter)
-
+		Filter_0.append(Module_Filter)
+    
+	D_Module.append(Filter_0)
 	D_Module.append(D_Module_Data)
-
 
 	Destinations.append(D_Module)
 
     cnpsXML.append(Destinations)
-
     return xmlheader + tostring(cnpsXML, encoding="utf-8")       
 
 
