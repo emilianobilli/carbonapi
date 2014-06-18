@@ -238,6 +238,14 @@ def CreateCarbonXMLJob ( s_path="", s_filename="", s_cuttime=[], d_list = [], so
 		Module_Filter_SUB.append(Module_Filter_Data)
 		Filter_0.append(Module_Filter_SUB)
 
+	if "logo" in dest:
+		Module_Filter_SUB = Element("Module_%s" % j)
+		j = j + 1
+		Module_Filter_SUB.attrib["ModuleGUID"] = "{8D2AD32E-8B96-45E4-99F5-F9CC7E25A044}"
+		Module_Filter_SUB.attrib["PresetGUID"] = "{8D2AD32E-8B96-45E4-99F5-F9CC7E25A044}"
+		Module_Filter_SUB.append(dest['logo'])
+		Filter_0.append(Module_Filter_SUB)
+
 
 	if "d_start_tc" in dest:
 		Module_Filter = Element("Module_%s" % j)
@@ -260,6 +268,7 @@ def CreateCarbonXMLJob ( s_path="", s_filename="", s_cuttime=[], d_list = [], so
 	Destinations.append(D_Module)
 
     cnpsXML.append(Destinations)
+    print tostring(cnpsXML, encoding="utf-8") 
     return xmlheader + tostring(cnpsXML, encoding="utf-8")       
 
 
