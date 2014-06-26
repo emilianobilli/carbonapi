@@ -12,7 +12,7 @@
 from xml.etree.ElementTree import *
 import time
 
-__all__ = ["FramesToCarbonFramesUnit", "CreateCarbonXMLJob", "CreateCarbonXMLJobCommand", "MailNotify"]
+__all__ = ["FramesToCarbonFramesUnit", "CreateCarbonXMLJob", "CreateCarbonXMLJobCommand", "MailNotify", "StichSource"]
     
 
 def __init__(self):
@@ -62,6 +62,21 @@ def FramesToCarbonFramesUnit(frames = 0, df = "DF"):
     carbonUnit = int(27000000 / frameRate)
     return (frames * carbonUnit)
 
+
+def StichSource(FileSrc = []):
+    
+	i = 0
+
+	Source = Element('Sources')
+
+	for file in FileSrc:
+	    Module         = Element('Module_%s' % str(i))
+	    Module.attrib['Filename'] = file
+	    Source.append(Module)
+	    i = i + 1
+	    
+	dump(Source)    
+	return Source
 
 
 def ComplexSourceGetModule(module_id, streamType, srcTrack, dstTrack, filename):
@@ -143,7 +158,7 @@ def MailNotify(PreTask=None, PostTask=None, TaskError=None):
 # @param s_cuttime List of dictionaries of timming [{in: "", out: ""}] in order
 # @param d_lsit List of dictionaries [{d_guid: "", CML_P_BaseFileName: "", CML_P_Path: ""}]
 # @retval OK: xml <cnpsXML TaskType="JobQueue"> or ERROR: None
-def CreateCarbonXMLJob ( s_path="", s_filename="", s_cuttime=[], d_list = [], source=None, notify=None ):
+def CreateCarbonXMLJob ( s_path="", s_filename="", s_cuttime=[], d_list = [], source=None, notify=None, stich=False ):
 	
     # XML Default Header
     xmlheader = "<?xml version=\"1.0\"?>"
@@ -268,6 +283,11 @@ def CreateCarbonXMLJob ( s_path="", s_filename="", s_cuttime=[], d_list = [], so
 	Destinations.append(D_Module)
 
     cnpsXML.append(Destinations)
+    if stich == True:
+	ProjectSettings = Element('ProjectSettings')
+	ProjectSettings.attrib['Stitching.DWD'] = "1"
+	cnpsXML.append(ProjectSettings)
+		
     print tostring(cnpsXML, encoding="utf-8") 
     return xmlheader + tostring(cnpsXML, encoding="utf-8")       
 
