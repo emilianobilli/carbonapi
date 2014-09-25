@@ -75,7 +75,6 @@ def StichSource(FileSrc = []):
 	    Source.append(Module)
 	    i = i + 1
 	    
-	dump(Source)    
 	return Source
 
 
